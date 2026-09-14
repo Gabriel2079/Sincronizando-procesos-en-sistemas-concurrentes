@@ -8,28 +8,31 @@ Actividad individual de la Semana 5 para la asignatura **Desarrollo Orientado a 
 
 El objetivo es simular el flujo de despacho de la empresa **SpeedFast**, donde varios repartidores trabajan en paralelo retirando paquetes desde una bodega común. 
 
-Para evitar entregas duplicadas o conflictos de acceso (condiciones de carrera), el sistema utiliza programación multihilo en Java (`Thread` y `Runnable`) y control de concurrencia mediante métodos sincronizados (`synchronized`).
+Para evitar entregas duplicadas o condiciones de carrera, el sistema implementa programación multihilo en Java (`Thread` y `Runnable`) y control de concurrencia mediante métodos sincronizados (`synchronized`).
 
 ---
 
 ## Cómo funciona el sistema
 
-1. **`EstadoPedido`**: Enum con los tres estados posibles: `PENDIENTE`, `EN_REPARTO` y `ENTREGADO`.
-2. **`Pedido`**: Representa la encomienda con su ID, dirección de destino y estado actual.
-3. **`ZonaDeCarga`**: Actúa como recurso compartido. Gestiona la lista de pedidos pendientes usando métodos `synchronized` (`agregarPedido` y `retirarPedido`) para garantizar que cada paquete sea tomado por un solo repartidor a la vez.
-4. **`Repartidor`**: Implementa `Runnable`. Cada hilo representa a un repartidor que toma un pedido, actualiza su estado a `EN_REPARTO`, simula el traslado con `Thread.sleep()` y finalmente lo marca como `ENTREGADO`.
-5. **`Main`**: Inicializa la zona de carga con al menos 5 pedidos, pone a trabajar a 3 repartidores en simultáneo y espera a que todos terminen para cerrar la jornada.
+1. **`cl.speedfast.model.EstadoPedido`**: Enum con los estados del ciclo de vida: `PENDIENTE`, `EN_REPARTO` y `ENTREGADO`.
+2. **`cl.speedfast.model.Pedido`**: Modela la encomienda con su ID, dirección y estado.
+3. **`cl.speedfast.model.ZonaDeCarga`**: Recurso compartido que gestiona la cola/lista de pedidos. Implementa los métodos sincronizados `agregarPedido()` y `retirarPedido()` para garantizar que solo un repartidor retire un pedido a la vez.
+4. **`cl.speedfast.model.Repartidor`**: Implementa `Runnable`. Cada hilo retira un pedido seguro, lo pasa a `EN_REPARTO`, simula el traslado con `Thread.sleep()` y lo marca como `ENTREGADO`.
+5. **`cl.speedfast.main.Main`**: Inicializa la zona de carga con los pedidos requeridos, lanza los 3 repartidores en paralelo y espera la finalización de todas las entregas.
 
 ---
 
-## Estructura del repositorio
+## Estructura del proyecto
 
 ```text
 semana 5/
-├── src/
-│   ├── EstadoPedido.java
-│   ├── Main.java
-│   ├── Pedido.java
-│   ├── Repartidor.java
-│   └── ZonaDeCarga.java
-└── README.md
+└── src/
+    └── cl/
+        └── speedfast/
+            ├── main/
+            │   └── Main.java
+            └── model/
+                ├── EstadoPedido.java
+                ├── Pedido.java
+                ├── Repartidor.java
+                └── ZonaDeCarga.java
