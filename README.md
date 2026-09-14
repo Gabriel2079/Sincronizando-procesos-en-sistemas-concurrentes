@@ -1,6 +1,6 @@
 # SpeedFast - Gestión Concurrente de Pedidos
 
-Actividad individual de la Semana 5 para la asignatura **Desarrollo Orientado a Objetos II** en **Duoc UC**.
+Actividad individual de la Semana 5 para la asignatura **Desarrollo Orientado a Objetos II**
 
 ---
 
